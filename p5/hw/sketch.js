@@ -11,7 +11,7 @@ let angle = 0;
 function setup() {
 
 	let canvas = createCanvas(800, 800);
-	canvas.position((windowWidth - width) / 2,(windowHeight - height) / 2)
+	canvas.position((windowWidth - width) / 2,(windowHeight - height) / 2);
 	background(0);
 	fill(75, 125, 255);
 	noStroke();
