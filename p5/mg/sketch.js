@@ -1,10 +1,11 @@
 let maxHeight;
 let speed = 15;
 let player;
+let canvas;
 
 function setup() {
 
-	let canvas = createCanvas(windowWidth/2, windowHeight/2);
+	canvas = createCanvas(windowWidth/2, windowHeight/2);
 	canvas.position((windowWidth - width) / 2,(windowHeight - height) / 2);
 	noStroke();
 	player = new Bubble(25, height-height/10);
@@ -12,29 +13,12 @@ function setup() {
 
 }
 
-class Bubble {
-
-	constructor(x, y) {
-		this.x = x;
-		this.y = y;
-		this.yDefault = y;
-		this.canJump = true;
-	}
-
-	jump() {
-		if(this.canJump){
-			this.jumping = true;
-			this.canJump = false;
-		}
-	}
-		
-}
-
 function draw() {
 
 	drawGround();
 	moveBubble();
 	drawCharacter();
+	let p = new Enemy(width);
 	//ellipse(width/2, maxHeight, 15, 15); Debug Ellipse;
 
 }
@@ -44,22 +28,6 @@ function drawGround() {
 	background(0, 125, 255);
 	fill(125);
 	rect(0, height-height/6, width, height/6);
-
-}
-
-function moveBubble(){
-
-	if(player.jumping){
-		player.y-=0.1*speed;
-		if(player.y <= maxHeight){
-			player.jumping = false;
-		}
-	}else if(!player.canJump){
-		player.y+=0.1*speed;
-		if(player.y >= player.yDefault){
-			player.canJump = true;
-		}
-	}
 
 }
 
