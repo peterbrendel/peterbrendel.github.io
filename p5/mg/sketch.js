@@ -2,7 +2,7 @@ let maxHeight;
 let speed = 15;
 let player;
 let canvas;
-let p;
+let props = [];
 
 function setup() {
 
@@ -13,20 +13,18 @@ function setup() {
 	textAlign(CENTER);
 	noStroke();
 	player = new Bubble(25, height-height/10);
-	maxHeight = height-height/10 - 25;
-	p = new Enemy(width);
+	maxHeight = height-height/10 - 40;
 
 }
 
 function draw() {
 	
 	drawGround();
+	addProp();
 	moveBubble();
 	drawCharacter();
-	
-	p.move();
-	p.draw();
-	//ellipse(width/2, maxHeight, 15, 15); Debug Ellipse;
+	props.forEach(PropLoop);
+	//ellipse(width/2, maxHeight, 15, 15);// Debug Ellipse;
 
 }
 
@@ -42,13 +40,8 @@ function drawGround() {
 
 }
 
-function drawCharacter() {
-
-	fill(55);
-	ellipse(player.x, player.yDefault+7, 15-map(player.y, maxHeight, player.yDefault, 4, 0), 5);
-	fill(0);
-	ellipse(player.x, player.y, 15, 15);
-
+function deleteFirst(){
+	props.splice(0,1);
 }
 
 function keyPressed(){
