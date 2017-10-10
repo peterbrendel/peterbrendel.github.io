@@ -62,6 +62,3 @@ int main(){
     return 0;
 }
 ```
-
-Solution 2 (Thanks to Guilherme Utiama):
-
