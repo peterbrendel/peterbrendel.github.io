@@ -9,44 +9,45 @@ typedef struct lista {
     struct lista *next;
 } Lista;
 
-void init(Lista * L, int value){
-    L = (Lista*)malloc(sizeof(Lista));
+Lista * createNode(int value){
+    Lista * L = (Lista*)malloc(sizeof(Lista));
     L->value = value;
     L->next = NULL;
+    return L;
 }
 
 void push(int value, Lista * head){
-    Lista * current = NULL;
+    Lista * current = head;
    // printf("current value = %d\npoints to %d", current->value, current->next);
     while(current->next != NULL){
         current = current->next;
     }
-    init(current->next, value);
+    current->next = createNode(value);
 }
 
 void concatenate(Lista * L1, Lista * L2){
     Lista * EOL1 = L1;
-    while(EOL1 != NULL){
+    while(EOL1->next != NULL){
         EOL1 = EOL1->next;
     }
+    // printf("Concatenou?\n");
     EOL1->next = L2;
+    // printf("Sepa q sim\n");
 }
 
 void print(Lista * L){
-
     while(L != NULL){
         printf("%d ", L->value);
         L = L->next;
     }
-
 }
 
 int main()
 {
-    Lista * headL1;
-    init(headL1, 0);
-    Lista * headL2;
-    init(headL2, 0);
+    Lista * headL1 = createNode(0);
+    Lista * headL2 = createNode(0);
+    Lista * head1 = NULL;
+    Lista * head2 = NULL;
 
    // printf("current value = %d\npoints to %d", headL1->value, headL1->next);
 
@@ -58,14 +59,20 @@ int main()
             break;
         push(aux, headL1);
     }
-    while(scanf("%d", &aux)){
+    head1 = headL1->next;
+    free(headL1);
+
+    while(1){
+        scanf("%d", &aux);
         if(aux < 0)
             break;
         push(aux, headL2);
     }
+    head2 = headL2->next;
+    free(headL2);
 
-    concatenate(headL1, headL2);
-    print(headL1);
+    concatenate(head1, head2);
+    print(head1);
 
     return 0;
 }
