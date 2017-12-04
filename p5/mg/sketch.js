@@ -8,7 +8,7 @@ function setup() {
 
 	canvas = createCanvas(windowWidth/2, windowHeight/2);
 	canvas.position((windowWidth - width) / 2,(windowHeight - height) / 2);
-	frameRate(60);
+	frameRate(500);
 	textSize(20);
 	textAlign(CENTER);
 	noStroke();
