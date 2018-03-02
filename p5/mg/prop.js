@@ -20,6 +20,13 @@ class Prop {
 	checkBounds() {
 		return this.x < -25;
 	}
+	propLoop(){
+		this.move();
+		this.draw();
+		if(this.checkBounds()){
+			deleteFirst();
+		}
+	}
 
 }
 
@@ -30,13 +37,5 @@ function addProp() {
 	}
 	if(!(random(1, 100) % 4)){
 		props.push(new Prop(width+25));
-	}
-}
-
-function propLoop(){
-	this.move();
-	this.draw();
-	if(this.checkBounds()){
-		deleteFirst();
 	}
 }
