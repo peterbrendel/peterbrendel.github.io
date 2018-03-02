@@ -33,10 +33,10 @@ function addProp() {
 	}
 }
 
-let PropLoop = function(prop){
-	prop.move();
-	prop.draw();
-	if(prop.checkBounds()){
+function propLoop(){
+	this.move();
+	this.draw();
+	if(this.checkBounds()){
 		deleteFirst();
 	}
 }
