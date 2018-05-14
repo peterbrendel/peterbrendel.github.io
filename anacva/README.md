@@ -1,3 +1,3 @@
 # Plano de Aula
-## [Aula 1 RTF](Aula 1.rtf)
-## [Aula 1 PDF](Aula 1.pdf)
+## [6 Aula 1](6 Aula 1.pdf)
+## [8 Aula 1](8 Aula 1.pdf)
