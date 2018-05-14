@@ -1,4 +1,4 @@
-# Plano de Aula
+# Planos de Aula
 ## - 6º ano
 ### [Aula 1](6 Aula 1.pdf)
 ## - 8º ano
