@@ -6,11 +6,11 @@
 ### [Plano 3](Plano de aula 3.docx)
 ### [Plano 4](Plano de aula 4.docx)
 
-# ECS-3
-## [Modelo](modelo.rtf)
-## - 6º ano
-### [Aula 1](6 Aula 1.pdf)
-### [Aula 2](6 Aula 2.pdf)
-## - 8º ano
-### [Aula 1](8 Aula 1.pdf)
-### [Aula 2](8 Aula 2.pdf)
+## ECS-3
+### [Modelo](modelo.rtf)
+### - 6º ano
+#### [Aula 1](6 Aula 1.pdf)
+#### [Aula 2](6 Aula 2.pdf)
+### - 8º ano
+#### [Aula 1](8 Aula 1.pdf)
+#### [Aula 2](8 Aula 2.pdf)
