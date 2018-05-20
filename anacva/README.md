@@ -7,6 +7,7 @@
 ### [Plano 4](Plano de aula 4.docx)
 ------
 ## ECS-3
+### [Registro de atividades](Registro de atividades.pdf)
 ### [Modelo](modelo.rtf)
 ### - 6º ano
 #### [Aula 1](6 Aula 1.pdf)
