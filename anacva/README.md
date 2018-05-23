@@ -10,4 +10,12 @@
 ### [Registro de atividades](Registro de atividades.pdf)
 ### [Modelo](modelo.rtf)
 ### - 6º ano
+#### [Aula 1](6 Aula 1.pdf)
+#### [Aula 2](6 Aula 2.pdf)
+#### [Aula 3](6 Aula 3.pdf)
+#### [Aula 4](6 Aula 4.pdf)
 ### - 8º ano
+#### [Aula 1](6 Aula 1.pdf)
+#### [Aula 2](6 Aula 2.pdf)
+#### [Aula 3](6 Aula 3.pdf)
+#### [Aula 4](6 Aula 4.pdf)
