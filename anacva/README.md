@@ -25,3 +25,4 @@
 #### [Aula 5](8 Aula 5.pdf)
 #### [Aula 6](8 Aula 6.pdf)
 #### [Aula 7 - 1](8 Aula 7 - 1.pdf)
+#### [Aula 7 - 2](8 Aula 7 - 2.pdf)
