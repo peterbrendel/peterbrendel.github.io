@@ -15,6 +15,8 @@
 #### [Aula 3](6 Aula 3.pdf)
 #### [Aula 4](6 Aula 4.pdf)
 #### [Aula 5](6 Aula 5.pdf)
+#### [Aula 6 - 1](6 Aula 6 - 1.pdf)
+#### [Aula 6 - 2](6 Aula 6 - 2.pdf)
 ### - 8º ano
 #### [Aula 1](8 Aula 1.pdf)
 #### [Aula 2](8 Aula 2.pdf)
@@ -22,3 +24,4 @@
 #### [Aula 4](8 Aula 4.pdf)
 #### [Aula 5](8 Aula 5.pdf)
 #### [Aula 6](8 Aula 6.pdf)
+#### [Aula 7 - 1](8 Aula 7 - 1.pdf)
