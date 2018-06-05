@@ -9,6 +9,7 @@
 ## ECS-3
 ### [Registro de atividades](Registro de atividades.pdf)
 ### [Modelo](modelo.rtf)
+### [Avaliação da escola](Folha-de-Avaliacao-Final-ECS3001.pdf)
 ### - 6º ano
 #### [Aula 1](6 Aula 1.pdf)
 #### [Aula 2](6 Aula 2.pdf)
