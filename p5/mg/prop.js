@@ -32,11 +32,3 @@ function addProp() {
 		props.push(new Prop(width+25));
 	}
 }
-
-let PropLoop = function(prop){
-	prop.move();
-	prop.draw();
-	if(prop.checkBounds()){
-		deleteFirst();
-	}
-}

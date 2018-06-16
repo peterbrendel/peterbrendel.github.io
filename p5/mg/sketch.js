@@ -23,7 +23,13 @@ function draw() {
 	addProp();
 	moveBubble();
 	drawCharacter();
-	props.forEach(PropLoop);
+	for(let i=props.length-1; i>=0; i--){
+		props[i].move();
+		props[i].draw();
+		if(props[i].checkBounds()){
+			deleteFirst();
+		}
+	}
 	//ellipse(width/2, maxHeight, 15, 15);// Debug Ellipse;
 
 }
