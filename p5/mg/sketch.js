@@ -8,7 +8,7 @@ function setup() {
 
 	canvas = createCanvas(windowWidth/2, windowHeight/2);
 	canvas.position((windowWidth - width) / 2,(windowHeight - height) / 2);
-	frameRate(60);
+	frameRate(500);
 	textSize(20);
 	textAlign(CENTER);
 	noStroke();
@@ -23,12 +23,17 @@ function draw() {
 	addProp();
 	moveBubble();
 	drawCharacter();
+<<<<<<< HEAD
 	for(let i=props.length-1; i>=0; i--){
 		props[i].move();
 		props[i].draw();
 		if(props[i].checkBounds()){
 			deleteFirst();
 		}
+=======
+	for(i=props.length-1; i>=0; i--){
+		props[i].propLoop();
+>>>>>>> 5accbafd94dc3bc1409774e922555b2327721a26
 	}
 	//ellipse(width/2, maxHeight, 15, 15);// Debug Ellipse;
 

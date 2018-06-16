@@ -20,6 +20,13 @@ class Prop {
 	checkBounds() {
 		return this.x < -25;
 	}
+	propLoop(){
+		this.move();
+		this.draw();
+		if(this.checkBounds()){
+			deleteFirst();
+		}
+	}
 
 }
 
