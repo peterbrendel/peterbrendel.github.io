@@ -9,6 +9,9 @@ let recvd;
 let connected = false;
 let localChar;
 let enemyChar;
+let ball;
+let speed = 10;
+let sender = false;
 
 function setup() {
 
@@ -21,8 +24,10 @@ function setup() {
 	maxHeight = height-height/10 - 40;
 	peer = new Peer();
 	send_data = peer.connect(getURLParams().opponent);
-	localChar = [40, 200, 10, 80];
-	enemyChar = [40, 200, 10, 80];
+	rectMode(CENTER);
+	localChar = {x:40, y:200, w:10, h:80};
+	enemyChar = {x:width-40, y:200, w:10, h:80};
+	ball 	  =	{x:300,y:200, r:10};
 
 	peer.on('open', function(id) {
 		myId = id;
@@ -38,9 +43,8 @@ function setup() {
 			send_data = peer.connect(conn.peer);
 			connected = true;
 		}
-
 		conn.on('data', receiveData);
-	});
+	} );
 
 }
 
@@ -52,21 +56,26 @@ function draw() {
 	fill(255);
 
 	if(keyIsDown(UP_ARROW)){
-		localChar[1]-=5;
-		if(localChar[1] <= 0)
-			localChar[1] = 0;
+		localChar.y-=5;
+		if(localChar.y <= 40)
+			localChar.y = 40;
 	}
 
 	if(keyIsDown(DOWN_ARROW)){
-		localChar[1]+=5;
-		if(localChar[1] >= 320)
-			localChar[1] = 320;
+		localChar.y+=5;
+		if(localChar.y >= 360)
+			localChar.y = 360;
 	}
 
-	rect(localChar[0],localChar[1],localChar[2],localChar[3]);
-	rect(width-enemyChar[0]-10, enemyChar[1], enemyChar[2], enemyChar[3]);
+	rect(localChar.x, localChar.y, localChar.w, localChar.h);
+	rect(enemyChar.x, enemyChar.y, enemyChar.w, enemyChar.h);
+	
+	ellipse(ball.x, ball.y, ball.r);
 
-	send([enemyChar[0], localChar[1], localChar[2], localChar[3]]);
+	move(ball);
+
+	if(connected)
+		send({x:enemyChar.x, y:localChar.y, w:localChar.w, h:localChar.h});
 
 }
 
@@ -78,4 +87,37 @@ function receiveData(data){
 function send(data){
 	let send = data;
 	send_data.send(send);
+}
+
+function move(ball){
+
+	ball.x+=speed;
+
+
+	if(ball.x < 100){
+		if(collides(ball, localChar)){
+			speed*=-1;
+			console.log("Collision");
+		}
+	}else{
+		if(collides(ball, enemyChar)){
+			speed*=-1;
+			console.log("Right Collision");
+		}
+	}
+
+	if(ball.x > width || ball.x < 0)
+		speed*=-1;
+
+}
+
+function collides(ball,rect){
+    var distX = Math.abs(ball.x - rect.x-rect.w/2);
+    var distY = Math.abs(ball.y - rect.y-rect.h/2);
+
+    if((ball.y > rect.y+(rect.h/2)) || (ball.y < rect.y-(rect.h/2))) { return false; }
+
+    if(ball.x == rect.x) { return true; }
+
+    return false;
 }
