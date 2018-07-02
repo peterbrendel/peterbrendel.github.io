@@ -9,9 +9,13 @@ let recvd;
 let connected = false;
 let localChar;
 let enemyChar;
+let opponentData;
 let ball;
-let speed = 10;
+let speedX = 10;
+let speedY = 0;
 let sender = false;
+let receiver = false;
+let sync = false;
 
 function setup() {
 
@@ -21,93 +25,129 @@ function setup() {
 	textSize(20);
 	textAlign(CENTER);
 	noStroke();
+	speedY = random(1, 5);
 	maxHeight = height-height/10 - 40;
 	peer = new Peer();
-	send_data = peer.connect(getURLParams().opponent);
+	send_data = peer.connect(getURLParams().opponent, {label:"sender"});
+
 	rectMode(CENTER);
 	localChar = {x:40, y:200, w:10, h:80};
 	enemyChar = {x:width-40, y:200, w:10, h:80};
 	ball 	  =	{x:300,y:200, r:10};
+	opponentData = null;
 
 	peer.on('open', function(id) {
 		myId = id;
 		console.log('My peer ID is: ' + id);
-		background(0);
-		fill(255);
-		text(myId, width/2, height/2, width/2, height/2);
+		// background(0);
+		// fill(255);
+		// text(myId, width/2, height/2, width/2, height/2);
 	});
 
 	peer.on('connection', function(conn) {
 		if(!connected){
 			console.log('Connected');
-			send_data = peer.connect(conn.peer);
 			connected = true;
+			console.log(conn.label);
+			if(conn.label == "sender"){
+				send_data = peer.connect(conn.peer, {label:"receiver"});
+				sender = false;
+				receiver = true;
+			}else if(conn.label == "receiver"){
+				sender = true;
+				receiver = false;
+			}
 		}
 		conn.on('data', receiveData);
-	} );
+	});
 
-}
-
-
-
-function draw() {
-	
 	background(0);
 	fill(255);
-
-	if(keyIsDown(UP_ARROW)){
-		localChar.y-=5;
-		if(localChar.y <= 40)
-			localChar.y = 40;
-	}
-
-	if(keyIsDown(DOWN_ARROW)){
-		localChar.y+=5;
-		if(localChar.y >= 360)
-			localChar.y = 360;
-	}
-
 	rect(localChar.x, localChar.y, localChar.w, localChar.h);
 	rect(enemyChar.x, enemyChar.y, enemyChar.w, enemyChar.h);
 	
 	ellipse(ball.x, ball.y, ball.r);
 
-	move(ball);
+}
 
-	if(connected)
-		send({x:enemyChar.x, y:localChar.y, w:localChar.w, h:localChar.h});
+function draw() {
+	if(connected){
+
+		background(0);
+		fill(255);
+
+		if(keyIsDown(UP_ARROW)){
+			localChar.y-=5;
+			if(localChar.y <= 40)
+				localChar.y = 40;
+		}
+
+		if(keyIsDown(DOWN_ARROW)){
+			localChar.y+=5;
+			if(localChar.y >= 360)
+				localChar.y = 360;
+		}
+
+		rect(localChar.x, localChar.y, localChar.w, localChar.h);
+		rect(enemyChar.x, enemyChar.y, enemyChar.w, enemyChar.h);
+		
+		ellipse(ball.x, ball.y, ball.r);
+
+		// console.log("sender", sender);
+		// console.log("receiver", receiver);
+
+		if(sender){
+			move(ball);
+			send({enemy:{x:enemyChar.x, y:localChar.y, w:localChar.w, h:localChar.h}, ball:ball});
+		}
+		else {
+			send({x:enemyChar.x, y:localChar.y, w:localChar.w, h:localChar.h});
+		}
+
+	}
 
 }
 
 function receiveData(data){
-	console.log('Received : ', data);
-	enemyChar = data;
+	// console.log(data);
+	if(receiver){
+		enemyChar = data.enemy;
+		ball = data.ball;
+	}else{
+		enemyChar = data;
+	}
 }
 
 function send(data){
-	let send = data;
-	send_data.send(send);
+	send_data.send(data);
 }
 
 function move(ball){
 
-	ball.x+=speed;
-
+	ball.x+=speedX;
+	ball.y+=speedY;
 
 	if(ball.x < 100){
 		if(collides(ball, localChar)){
-			speed*=-1;
+			speedX*=-1;
 			console.log("Collision");
 		}
 	}else{
 		if(collides(ball, enemyChar)){
-			speed*=-1;
+			speedX*=-1;
 			console.log("Right Collision");
 		}
 	}
 
-	if(ball.x > width || ball.x < 0)
-		speed*=-1;
+	if(ball.x > width || ball.x < 0){
+		speedX*=-1;
+		ball.x=200;
+	}
+
+	if(ball.y > height || ball.y < 0){
+		speedY*=-1;
+	}
+
 
 }
 
