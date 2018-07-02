@@ -76,16 +76,36 @@ function draw() {
 		background(0);
 		fill(255);
 
-		if(keyIsDown(UP_ARROW)){
-			localChar.y-=5;
-			if(localChar.y <= 40)
-				localChar.y = 40;
-		}
+		if(sender){
+			if(keyIsDown(UP_ARROW)){
+				localChar.y-=5;
+				if(localChar.y <= 40)
+					localChar.y = 40;
+			}
 
-		if(keyIsDown(DOWN_ARROW)){
-			localChar.y+=5;
-			if(localChar.y >= 360)
-				localChar.y = 360;
+			if(keyIsDown(DOWN_ARROW)){
+				localChar.y+=5;
+				if(localChar.y >= 360)
+					localChar.y = 360;
+			}
+
+			move(ball);
+			send({enemy:{x:localChar.x, y:localChar.y, w:localChar.w, h:localChar.h}, ball:ball});
+		}else if(receiver){
+			if(keyIsDown(UP_ARROW)){
+				enemyChar.y-=5;
+				if(enemyChar.y <= 40)
+					enemyChar.y = 40;
+			}
+
+			if(keyIsDown(DOWN_ARROW)){
+				enemyChar.y+=5;
+				if(enemyChar.y >= 360)
+					enemyChar.y = 360;
+			}
+
+			send({local:{x:enemyChar.x, y:enemyChar.y, w:enemyChar.w, h:enemyChar.h}});
+
 		}
 
 		rect(localChar.x, localChar.y, localChar.w, localChar.h);
@@ -96,14 +116,6 @@ function draw() {
 		// console.log("sender", sender);
 		// console.log("receiver", receiver);
 
-		if(sender){
-			move(ball);
-			send({enemy:{x:enemyChar.x, y:localChar.y, w:localChar.w, h:localChar.h}, ball:ball});
-		}
-		else {
-			send({x:enemyChar.x, y:localChar.y, w:localChar.w, h:localChar.h});
-		}
-
 	}
 
 }
@@ -111,10 +123,10 @@ function draw() {
 function receiveData(data){
 	// console.log(data);
 	if(receiver){
-		enemyChar = data.enemy;
+		localChar = data.enemy;
 		ball = data.ball;
-	}else{
-		enemyChar = data;
+	}else if(sender){
+		enemyChar = data.local;
 	}
 }
 
@@ -141,7 +153,6 @@ function move(ball){
 
 	if(ball.x > width || ball.x < 0){
 		speedX*=-1;
-		ball.x=200;
 	}
 
 	if(ball.y > height || ball.y < 0){
