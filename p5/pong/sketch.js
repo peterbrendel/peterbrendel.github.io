@@ -1,47 +1,63 @@
-let maxHeight;
-let canvas;
-let peer;
-let myId;
-let send_data = null;
-let me;
-let recv_data;
-let recvd;
-let connected = false;
-let localChar;
-let enemyChar;
-let opponentData;
-let ball;
-let speedX = 10;
-let speedY = 0;
+
+// Technical variables
+
+let maxHeight = 0;
+let canvas = null;
+let peer = null;
+let myId = null;
+let sendData = null;
+let opponentData = null;
+
+// Entities
+
+let localPlayer = null;
+let enemyPlayer = null;
+let scoreboard = null;
+let ball = null;
+
+// Booleans
+
 let sender = false;
 let receiver = false;
 let sync = false;
+let playing = false;
+let connected = false;
+
+// Constants
+
+let MOVE_UP = -5;
+let MOVE_DN = 5;
+
+//
 
 function setup() {
 
 	canvas = createCanvas(600, 400);
 	canvas.position((windowWidth - width) / 2,(windowHeight - height) / 2);
-	frameRate(500);
+	frameRate(60);
 	textSize(20);
 	textAlign(CENTER);
 	noStroke();
-	speedY = random(1, 5);
 	maxHeight = height-height/10 - 40;
 	peer = new Peer();
-	send_data = peer.connect(getURLParams().opponent, {label:"sender"});
-
+	sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
-	localChar = {x:40, y:200, w:10, h:80};
-	enemyChar = {x:width-40, y:200, w:10, h:80};
-	ball 	  =	{x:300,y:200, r:10};
+	translate(width/2, height/2);
+
+	localPlayer = new Player(-width/2+40, 0, 8, 80, color(0, 0, 255));
+	enemyPlayer = new Player(width/2-40, 0, 8, 80, color(255, 0, 0));
+	ball = new Ball(0, 0, 10, color(255,255,255));
+	scoreboard = new Scoreboard();
 	opponentData = null;
 
 	peer.on('open', function(id) {
 		myId = id;
+		push();
+			fill(255);
+			textSize(30);
+			text("My ID: " + myId, 0, -height/2 + 80);
+		pop();
 		console.log('My peer ID is: ' + id);
-		// background(0);
-		// fill(255);
-		// text(myId, width/2, height/2, width/2, height/2);
 	});
 
 	peer.on('connection', function(conn) {
@@ -50,7 +66,7 @@ function setup() {
 			connected = true;
 			console.log(conn.label);
 			if(conn.label == "sender"){
-				send_data = peer.connect(conn.peer, {label:"receiver"});
+				sendData = peer.connect(conn.peer, {label:"receiver"});
 				sender = false;
 				receiver = true;
 			}else if(conn.label == "receiver"){
@@ -62,113 +78,81 @@ function setup() {
 	});
 
 	background(0);
-	fill(255);
-	rect(localChar.x, localChar.y, localChar.w, localChar.h);
-	rect(enemyChar.x, enemyChar.y, enemyChar.w, enemyChar.h);
-	
-	ellipse(ball.x, ball.y, ball.r);
+	scoreboard.show();
+	localPlayer.draw();
+	enemyPlayer.draw();
+	ball.draw();
 
 }
 
 function draw() {
-	if(connected){
+	translate(width/2, height/2);
+	if(connected && playing){
 
 		background(0);
-		fill(255);
 
 		if(sender){
+
 			if(keyIsDown(UP_ARROW)){
-				localChar.y-=5;
-				if(localChar.y <= 40)
-					localChar.y = 40;
+				localPlayer.move(MOVE_UP);
 			}
 
 			if(keyIsDown(DOWN_ARROW)){
-				localChar.y+=5;
-				if(localChar.y >= 360)
-					localChar.y = 360;
+				localPlayer.move(MOVE_DN);
 			}
 
-			move(ball);
-			send({enemy:{x:localChar.x, y:localChar.y, w:localChar.w, h:localChar.h}, ball:ball});
+			ball.move(scoreboard);
+
+			if(ball.x > 200){
+				ball.checkCollision(enemyPlayer);		//Pode estar com problema aqui xD
+			}else if(ball.x < -200){
+				ball.checkCollision(localPlayer);
+			}
+			send({local:localPlayer.getData(), ball:ball.getData(), score:scoreboard.getData()});
+			// send({enemy:localPlayer, ball:ball, score:score});
+
 		}else if(receiver){
 			if(keyIsDown(UP_ARROW)){
-				enemyChar.y-=5;
-				if(enemyChar.y <= 40)
-					enemyChar.y = 40;
+				enemyPlayer.move(MOVE_UP);
 			}
 
 			if(keyIsDown(DOWN_ARROW)){
-				enemyChar.y+=5;
-				if(enemyChar.y >= 360)
-					enemyChar.y = 360;
+				enemyPlayer.move(MOVE_DN);
 			}
-
-			send({local:{x:enemyChar.x, y:enemyChar.y, w:enemyChar.w, h:enemyChar.h}});
-
+			send({enemy:enemyPlayer.getData()});
 		}
 
-		rect(localChar.x, localChar.y, localChar.w, localChar.h);
-		rect(enemyChar.x, enemyChar.y, enemyChar.w, enemyChar.h);
-		
-		ellipse(ball.x, ball.y, ball.r);
+		scoreboard.show();
+		localPlayer.draw();
+		enemyPlayer.draw();
+		ball.draw();
 
-		// console.log("sender", sender);
-		// console.log("receiver", receiver);
+	}else{
+
+		if(keyIsDown(ENTER)){
+			send({begin:1});
+		}
 
 	}
 
 }
 
 function receiveData(data){
-	// console.log(data);
+	if(!playing){
+		if(data.begin == 1){
+			playing = true;
+			send({begin:1});
+		}
+	}
 	if(receiver){
-		localChar = data.enemy;
-		ball = data.ball;
+		localPlayer.setData(data.local);
+		ball.setData(data.ball);
+		scoreboard.setData(data.score);
 	}else if(sender){
-		enemyChar = data.local;
+		enemyPlayer.setData(data.enemy);
 	}
 }
 
 function send(data){
-	send_data.send(data);
-}
-
-function move(ball){
-
-	ball.x+=speedX;
-	ball.y+=speedY;
-
-	if(ball.x < 100){
-		if(collides(ball, localChar)){
-			speedX*=-1;
-			console.log("Collision");
-		}
-	}else{
-		if(collides(ball, enemyChar)){
-			speedX*=-1;
-			console.log("Right Collision");
-		}
-	}
-
-	if(ball.x > width || ball.x < 0){
-		speedX*=-1;
-	}
-
-	if(ball.y > height || ball.y < 0){
-		speedY*=-1;
-	}
-
-
-}
-
-function collides(ball,rect){
-    var distX = Math.abs(ball.x - rect.x-rect.w/2);
-    var distY = Math.abs(ball.y - rect.y-rect.h/2);
-
-    if((ball.y > rect.y+(rect.h/2)) || (ball.y < rect.y-(rect.h/2))) { return false; }
-
-    if(ball.x == rect.x) { return true; }
-
-    return false;
+	sendData.send(data);
 }
