@@ -7,6 +7,8 @@ let peer = null;
 let myId = null;
 let sendData = null;
 let opponentData = null;
+let sound_hit = null;
+let sound_mis = null;
 
 // Entities
 
@@ -43,6 +45,9 @@ function setup() {
 	sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
 	translate(width/2, height/2);
+	sound_hit = loadSound("assets/hit.mp3");
+	sound_mis = loadSound("assets/mis.mp3");
+	setVolume(0.1);
 
 	localPlayer = new Player(-width/2+40, 0, 8, 80, color(0, 0, 255));
 	enemyPlayer = new Player(width/2-40, 0, 8, 80, color(255, 0, 0));
@@ -126,6 +131,8 @@ function draw() {
 		localPlayer.draw();
 		enemyPlayer.draw();
 		ball.draw();
+		ball.playSound(enemyPlayer);
+		ball.playSound(localPlayer);
 
 	}else{
 

@@ -1,6 +1,6 @@
 class Ball extends Functionality {
 
-    constructor(x, y, r, color){
+    constructor(x, y, r, color, sound){
         super(color, 255);
         this.x = x;
         this.y = y;
@@ -10,6 +10,7 @@ class Ball extends Functionality {
         this.wLimit = width/2;
         this.hLimit = height/2;
         this.direction = 1;
+        this.soundFx = sound;
     }
 
     move(scoreboard){
@@ -39,7 +40,7 @@ class Ball extends Functionality {
             if ((this.y > other.y+other.h/2) || (this.y < other.y-other.h/2)) {
                 return false;
             }else{
-                this.direction*=-1;
+                this.direction*=-1; 
                 return true;
             }
         }

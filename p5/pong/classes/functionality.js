@@ -19,4 +19,11 @@ class Functionality {
 
         }
     }
+
+    playSound(){
+
+        if(this instanceof Ball){
+
+        }
+    }
 }
