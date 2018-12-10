@@ -41,7 +41,7 @@ function setup() {
 	textAlign(CENTER);
 	noStroke();
 	maxHeight = height-height/10 - 40;
-	peer = new Peer();
+	peer = new Peer(null, {secure:true});
 	sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
 	translate(width/2, height/2);
