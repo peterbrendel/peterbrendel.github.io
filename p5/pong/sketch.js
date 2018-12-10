@@ -136,9 +136,12 @@ function draw() {
 		//ball.playSound(localPlayer);
 
 	}else{
-
+		
 		if(keyIsDown(ENTER)){
 			send({begin:1});
+		}
+		if(keyIsDown(SPACE)){
+			console.log("updated");
 		}
 
 	}
