@@ -41,7 +41,7 @@ function setup() {
 	textAlign(CENTER);
 	noStroke();
 	maxHeight = height-height/10 - 40;
-	peer = new Peer(null, {secure: true});
+	peer = new Peer(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 12), {secure: true});
 	if(getURLParams().opponent != undefined)
 		sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
@@ -65,7 +65,7 @@ function setup() {
 		pop();
 		console.log('My peer ID is: ' + id);
 	});
-
+	
 	peer.on('connection', function(conn) {
 		if(!connected){
 			console.log('Connected');
