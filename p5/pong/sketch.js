@@ -142,7 +142,7 @@ function draw() {
 			send({begin:1});
 		}
 		if(keyIsDown(CONTROL)){
-			console.log("updated");
+			console.log("newhost");
 		}
 
 	}
