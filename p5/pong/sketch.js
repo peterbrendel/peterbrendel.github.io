@@ -140,7 +140,7 @@ function draw() {
 		if(keyIsDown(ENTER)){
 			send({begin:1});
 		}
-		if(keyIsDown(SPACE)){
+		if(keyIsDown(CONTROL)){
 			console.log("updated");
 		}
 
