@@ -42,7 +42,7 @@ function setup() {
 	noStroke();
 	maxHeight = height-height/10 - 40;
 	//let pp = new Peer('ashd12u3h', {host: 'https://retepong.herokuapp.com', key: 'peerjs', port:9000}); 
-	peer = new Peer(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 12), {host: 'https://retepong.herokuapp.com', key: 'peerjs', port:9000, secure: true});
+	peer = new Peer(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 12), {host: 'retepong.herokuapp.com', key: 'peerjs', port:9000, secure: true});
 	if(getURLParams().opponent != undefined)
 		sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
@@ -142,7 +142,7 @@ function draw() {
 			send({begin:1});
 		}
 		if(keyIsDown(CONTROL)){
-			console.log("newhost");
+			console.log("fixedhost");
 		}
 
 	}
