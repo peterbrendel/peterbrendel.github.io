@@ -41,7 +41,8 @@ function setup() {
 	textAlign(CENTER);
 	noStroke();
 	maxHeight = height-height/10 - 40;
-	peer = new Peer(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 12), {secure: true});
+	//let pp = new Peer('ashd12u3h', {host: 'https://retepong.herokuapp.com', key: 'peerjs', port:9000}); 
+	peer = new Peer(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 12), {host: 'https://retepong.herokuapp.com', key: 'peerjs', port:9000, secure: true});
 	if(getURLParams().opponent != undefined)
 		sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
