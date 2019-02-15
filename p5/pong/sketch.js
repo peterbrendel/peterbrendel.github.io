@@ -7,8 +7,8 @@ let peer = null;
 let myId = null;
 let sendData = null;
 let opponentData = null;
-let sound_hit = null;
-let sound_mis = null;
+//let sound_hit = null;
+//let sound_mis = null;
 
 // Entities
 
@@ -41,13 +41,15 @@ function setup() {
 	textAlign(CENTER);
 	noStroke();
 	maxHeight = height-height/10 - 40;
-	peer = new Peer();
-	sendData = peer.connect(getURLParams().opponent, {label:"sender"});
+	//let pp = new Peer('ashd12u3h', {host: 'https://retepong.herokuapp.com', key: 'peerjs', port:9000}); 
+	peer = new Peer(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 12), {host: 'retepong.herokuapp.com', key: 'peerjs', port:9000, secure: true});
+	if(getURLParams().opponent != undefined)
+		sendData = peer.connect(getURLParams().opponent, {label:"sender"});
 	rectMode(CENTER);
 	translate(width/2, height/2);
-	sound_hit = loadSound("assets/hit.mp3");
-	sound_mis = loadSound("assets/mis.mp3");
-	setVolume(0.1);
+	//sound_hit = loadSound("assets/hit.mp3");
+	//sound_mis = loadSound("assets/mis.mp3");
+	//setVolume(0.1);
 
 	localPlayer = new Player(-width/2+40, 0, 8, 80, color(0, 0, 255));
 	enemyPlayer = new Player(width/2-40, 0, 8, 80, color(255, 0, 0));
@@ -64,7 +66,7 @@ function setup() {
 		pop();
 		console.log('My peer ID is: ' + id);
 	});
-
+	
 	peer.on('connection', function(conn) {
 		if(!connected){
 			console.log('Connected');
@@ -131,13 +133,16 @@ function draw() {
 		localPlayer.draw();
 		enemyPlayer.draw();
 		ball.draw();
-		ball.playSound(enemyPlayer);
-		ball.playSound(localPlayer);
+		//ball.playSound(enemyPlayer);
+		//ball.playSound(localPlayer);
 
 	}else{
-
+		
 		if(keyIsDown(ENTER)){
 			send({begin:1});
+		}
+		if(keyIsDown(CONTROL)){
+			console.log("fixedhost");
 		}
 
 	}
