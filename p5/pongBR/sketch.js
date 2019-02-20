@@ -4,7 +4,7 @@ let maxHeight = 0;
 let canvas = null;
 var webSocket   = null;
 var ws_protocol = "ws";
-var ws_hostname = "reteplednerb.ddns.net";
+var ws_hostname = "localhost";
 var ws_port     = "1501";
 
 // Entities
@@ -49,5 +49,13 @@ function setup() {
 function draw() {
 	translate(width/2, height/2);
 	background(0);
+	
+	handler.getPlayers().forEach((player) => {
+		player.draw();
+	})
 
+}
+
+function mouseMoved(){
+	webSocket.send(mouseX + "," + mouseY)
 }

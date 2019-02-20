@@ -13,7 +13,7 @@ class Functionality {
             translate(this.x,this.y);
             rotate(this.angle);
             fill(this.color);
-            rect(this.x, this.y, this.w, this.h);
+            rect(0, 0, this.w, this.h);
             pop();
 
         }else if(this instanceof Ball){

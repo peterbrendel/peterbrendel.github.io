@@ -1,11 +1,12 @@
 class Player extends Functionality{
 
-    constructor(x, y, w, h, color){
+    constructor(x, y, angle, color){
         super(color, 255);
         this.x = x;
         this.y = y;
-        this.w = w;
-        this.h = h;
+        this.angle = angle;
+        this.w = 60;
+        this.h = 10;
         this.upperBounds = -height/2+this.h/2;
         this.lowerBounds = height/2-this.h/2;
     }
