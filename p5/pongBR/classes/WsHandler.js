@@ -1,6 +1,8 @@
 class WsHandler {
 
-    constructor(){}
+    constructor(){
+        this.players = []
+    }
 
     openEvent(args) {
         console.log("WebSocket OPEN: " + JSON.stringify(args, null, 4));
@@ -16,11 +18,11 @@ class WsHandler {
 
     messageEvent(args) {
         var wsMsg = args.data;
-        console.log("WebSocket MESSAGE: " + wsMsg);
+        console.log("WebSocket MESSAGE");
         if (wsMsg.indexOf("error") > 0) {
             console.log("error: " + wsMsg.error + "\r\n");
         } else {
-            console.log("message: " + wsMsg + "\r\n");
+            console.log(JSON.parse(wsMsg));
         }
     }
 }

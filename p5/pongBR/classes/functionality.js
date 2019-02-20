@@ -9,8 +9,12 @@ class Functionality {
 
         if(this instanceof Player){
             // console.log(this);
+            push();
+            translate(this.x,this.y);
+            rotate(this.angle);
             fill(this.color);
             rect(this.x, this.y, this.w, this.h);
+            pop();
 
         }else if(this instanceof Ball){
             // console.log(this);
